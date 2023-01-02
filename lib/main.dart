@@ -3,6 +3,8 @@ import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:restaurant_app/data/Data.dart';
+import 'package:restaurant_app/widget/restaurant_item.dart';
+import 'package:restaurant_app/widget/sliver_app_bar.dart';
 
 void main() {
   runApp(const MyApp());
@@ -42,26 +44,42 @@ class _MyHomePageState extends State<MyHomePage> {
   Widget build(BuildContext context) {
     initData();
     return Scaffold(
-      body: SafeArea(
+      body: SingleChildScrollView(
           child: (_data != null)
               ? Padding(
-                padding: const EdgeInsets.all(8.0),
-                child: Column(
-                  children: [
-                    Text('Restaurant'),
-                    Text('Here are our reccomendation for you!'),
-                  ],
-                ),
-              )
+                  padding: const EdgeInsets.all(8.0),
+                  child: Column(
+                    children: [
+                      SliverPersistentHeader(
+                        delegate: SliverAppBarDelegate(
+                          child: Center(
+                            child: Column(
+                              children: const [
+                                Text('Restaurant App'),
+                                Text('Here is our Reccomendation for You')
+                              ],
+                            ),
+                          ),
+                        ),
+                        pinned: true,
+                      ),
+                      SliverList(
+                          delegate: SliverChildListDelegate(_data!.restaurants
+                              .map((e) => RestaurantItem(restaurants: e))
+                              .toList()))
+                    ],
+                  ),
+                )
               : Column(
-                children: [
-                  Text('Failed to load data :(, Please Restart the App!')
-                ],
-              )),
+                  children: const [
+                    Text('Failed to load data :(, Please Restart the App!')
+                  ],
+                )),
     );
   }
 
   Future initData() async {
-    _data ??= Data.fromJson(json.decode(await rootBundle.loadString("assets/data.json")));
+    _data ??= Data.fromJson(
+        json.decode(await rootBundle.loadString("assets/data.json")));
   }
 }
