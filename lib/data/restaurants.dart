@@ -1,4 +1,4 @@
-import 'Menus.dart';
+import 'menus.dart';
 
 class Restaurants {
   Restaurants({
@@ -35,9 +35,7 @@ class Restaurants {
     map['pictureId'] = pictureId;
     map['city'] = city;
     map['rating'] = rating;
-    if (menus != null) {
-      map['menus'] = menus.toJson();
-    }
+    map['menus'] = menus.toJson();
     return map;
   }
 

@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:restaurant_app/data/Restaurants.dart';
+import 'package:restaurant_app/data/restaurants.dart';
 import 'package:restaurant_app/widget/menu_card.dart';
 
 class DetailScreen extends StatelessWidget {

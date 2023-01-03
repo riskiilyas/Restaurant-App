@@ -1,16 +1,11 @@
 import 'package:flutter/material.dart';
-import 'package:restaurant_app/data/Restaurants.dart';
+import 'package:restaurant_app/data/restaurants.dart';
 import 'package:restaurant_app/widget/restaurant_item.dart';
 
-import '../data/Data.dart';
+import '../data/data.dart';
 
 class RestaurantSearchDelegate extends SearchDelegate {
   RestaurantSearchDelegate({Key? key, required this.data}) : super();
-
-  @override
-  Widget build(BuildContext context) {
-    return Container();
-  }
 
   final Data data;
 

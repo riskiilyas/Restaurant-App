@@ -1,4 +1,4 @@
-import 'Restaurants.dart';
+import 'restaurants.dart';
 class Data {
   Data({
       required this.restaurants,});
@@ -15,9 +15,7 @@ class Data {
 
   Map<String, dynamic> toJson() {
     final map = <String, dynamic>{};
-    if (restaurants != null) {
-      map['restaurants'] = restaurants.map((v) => v.toJson()).toList();
-    }
+    map['restaurants'] = restaurants.map((v) => v.toJson()).toList();
     return map;
   }
 

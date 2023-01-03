@@ -1,5 +1,5 @@
-import 'Foods.dart';
-import 'Drinks.dart';
+import 'foods.dart';
+import 'drinks.dart';
 
 class Menus {
   Menus({
@@ -25,12 +25,8 @@ class Menus {
 
   Map<String, dynamic> toJson() {
     final map = <String, dynamic>{};
-    if (foods != null) {
-      map['foods'] = foods.map((v) => v.toJson()).toList();
-    }
-    if (drinks != null) {
-      map['drinks'] = drinks.map((v) => v.toJson()).toList();
-    }
+    map['foods'] = foods.map((v) => v.toJson()).toList();
+    map['drinks'] = drinks.map((v) => v.toJson()).toList();
     return map;
   }
 
