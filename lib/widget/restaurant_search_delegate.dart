@@ -37,7 +37,10 @@ class RestaurantSearchDelegate extends SearchDelegate {
     return ListView.separated(
         itemBuilder: (context, i) =>
         list
-            .map((e) => RestaurantItem(restaurants: e))
+            .map((e) => Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 8),
+              child: RestaurantItem(restaurants: e),
+            ))
             .toList()[i],
         separatorBuilder: (ctx, id) => const SizedBox(),
         itemCount: list.length);
