@@ -3,6 +3,8 @@ import 'package:restaurant_app/data/Restaurants.dart';
 import 'package:flutter/material.dart';
 import 'package:restaurant_app/widget/toast_layout.dart';
 
+import '../detail_screen.dart';
+
 class RestaurantItem extends StatelessWidget {
   final Restaurants restaurants;
 
@@ -20,6 +22,13 @@ class RestaurantItem extends StatelessWidget {
           gravity: ToastGravity.BOTTOM,
           toastDuration: const Duration(seconds: 2),
         );
+
+        Navigator.push(
+            context,
+            MaterialPageRoute(
+                builder: (context) => DetailScreen(
+                  restaurants: restaurants,
+                )));
       },
       child: Container(
         padding: const EdgeInsets.symmetric(vertical: 8),
