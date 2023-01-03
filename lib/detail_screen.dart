@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:restaurant_app/data/Restaurants.dart';
 import 'package:restaurant_app/widget/menu_card.dart';
 
@@ -11,13 +10,18 @@ class DetailScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      appBar: AppBar(
+        backgroundColor: Colors.deepOrange,
+        elevation: 0,
+        toolbarHeight: 0,
+      ),
       body: SafeArea(
         child: SingleChildScrollView(
           child: Column(
             children: [
               ClipRRect(
                   borderRadius:
-                      const BorderRadius.vertical(bottom: Radius.circular(16)),
+                  const BorderRadius.vertical(bottom: Radius.circular(16)),
                   child: Image.network(restaurants.pictureId)),
               Padding(
                 padding: const EdgeInsets.all(12),
@@ -38,25 +42,56 @@ class DetailScreen extends StatelessWidget {
                           size: 16,
                         ),
                         const SizedBox(width: 2,),
-                        Text(restaurants.city, style: const TextStyle(fontSize: 16),),
+                        Text(restaurants.city,
+                          style: const TextStyle(fontSize: 16),),
                       ],
                     ),
                     const Divider(),
                     const SizedBox(height: 12),
                     const Text(
                       'Description',
-                      style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+                      style: TextStyle(
+                          fontSize: 20, fontWeight: FontWeight.bold),
                     ),
                     const SizedBox(height: 8,),
                     Text(restaurants.description),
                     const Divider(),
                     const SizedBox(height: 12,),
                     const Text(
-                      'Foods Menu',
-                      style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+                      'Foods',
+                      style: TextStyle(
+                          fontSize: 20, fontWeight: FontWeight.bold),
                     ),
+                    const Divider(),
+                    const SizedBox(height: 8,),
+                    SizedBox(
+                      height: 140,
+                      child: ListView.builder(itemBuilder: (context, i) {
+                        return MenuCard(name: restaurants.menus.foods[i].name);
+                      },
+                        itemCount: restaurants.menus.foods.length,
+                        scrollDirection: Axis.horizontal,
+                      ),
+                    ),
+                    const Divider(),
                     const SizedBox(height: 12,),
-                    MenuCard(name: restaurants.menus.foods[0].name)
+                    const Text(
+                      'Drinks',
+                      style: TextStyle(
+                          fontSize: 20, fontWeight: FontWeight.bold),
+                    ),
+                    const Divider(),
+                    const SizedBox(height: 8,),
+                    SizedBox(
+                      height: 140,
+                      child: ListView.builder(itemBuilder: (context, i) {
+                        return MenuCard(name: restaurants.menus.drinks[i].name);
+                      },
+                        itemCount: restaurants.menus.drinks.length,
+                        scrollDirection: Axis.horizontal,
+                      ),
+                    ),
+                    const Divider()
                   ],
                 ),
               )
