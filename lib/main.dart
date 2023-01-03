@@ -50,9 +50,6 @@ class _MyHomePageState extends State<MyHomePage> {
         backgroundColor: Colors.deepOrange,
         elevation: 0,
         toolbarHeight: 0,
-        systemOverlayStyle: const SystemUiOverlayStyle(
-          statusBarColor: Colors.deepOrange,
-        ),
       ),
       body: SafeArea(
           child: (_data != null)
@@ -68,7 +65,7 @@ class _MyHomePageState extends State<MyHomePage> {
                         }, icon: const Icon(Icons.search))
                   ],
                   flexibleSpace: FlexibleSpaceBar(
-                    title: Text("Restaurant App"),
+                    title: const Text("Restaurant App"),
                     background: Image.asset(
                       'assets/header.png',
                       fit: BoxFit.fill,
