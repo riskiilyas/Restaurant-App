@@ -5,7 +5,7 @@ import 'package:flutter/services.dart';
 import 'package:flutter_native_splash/flutter_native_splash.dart';
 import 'package:restaurant_app/data/Data.dart';
 import 'package:restaurant_app/widget/restaurant_item.dart';
-import 'package:restaurant_app/widget/sliver_app_bar.dart';
+import 'package:restaurant_app/widget/restaurant_search_delegate.dart';
 
 void main() {
   WidgetsBinding widgetsBinding = WidgetsFlutterBinding.ensureInitialized();
@@ -21,7 +21,7 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       title: 'Resturant App',
       theme: ThemeData(
-        primarySwatch: Colors.blue,
+        primarySwatch: Colors.deepOrange,
       ),
       home: const MyHomePage(title: 'Restaurant App'),
     );
@@ -47,41 +47,49 @@ class _MyHomePageState extends State<MyHomePage> {
   Widget build(BuildContext context) {
     return Scaffold(
       body: SafeArea(
-        child: SingleChildScrollView(
-            child: (_data != null)
-                ? Padding(
-                    padding: const EdgeInsets.all(8.0),
-                    child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Padding(
-                            padding: const EdgeInsets.symmetric(vertical: 12),
-                            child: Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: const [
-                                Text(
-                                  'Restaurant App',
-                                  style: TextStyle(),
-                                ),
-                                Text('Here is our Reccomendation for You!')
-                              ],
-                            ),
-                          ),
-                          Column(
-                            children: _data!.restaurants
-                                .map((e) => RestaurantItem(restaurants: e))
-                                .toList(),
-                          )
-                        ]),
-                  )
-                : Container(
-                    child: Center(
-                        child: Text(
-                      'Failed to load data :(\nPlease Restart the App!',
-                      style: TextStyle(),
-                    )),
-                  )),
-      ),
+          child: (_data != null)
+              ? NestedScrollView(
+            headerSliverBuilder: (context, innerBoxIsScrolled) {
+              return [
+                SliverAppBar(
+                  actions: [
+                    IconButton(
+                        onPressed: () {
+                          showSearch(context: context,
+                            delegate: RestaurantSearchDelegate(data: _data!),);
+                        }, icon: const Icon(Icons.search))
+                  ],
+                  flexibleSpace: FlexibleSpaceBar(
+                    title: Text("Restaurant App"),
+                    background: Image.asset(
+                      'assets/header.png',
+                      fit: BoxFit.fill,
+                    ),
+                    titlePadding: const EdgeInsets.only(left: 8, bottom: 16),
+                  ),
+                  expandedHeight: 200,
+                  pinned: true,
+                )
+              ];
+            },
+            body: Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: ListView.separated(
+                  itemBuilder: (context, i) =>
+                  _data!.restaurants
+                      .map((e) => RestaurantItem(restaurants: e))
+                      .toList()[i],
+                  separatorBuilder: (ctx, id) => const SizedBox(),
+                  itemCount: _data!.restaurants.length),
+            ),
+          )
+              : Container(
+            child: Center(
+                child: Text(
+                  'Failed to load data :(\nPlease Restart the App!',
+                  style: TextStyle(),
+                )),
+          )),
     );
   }
 
