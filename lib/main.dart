@@ -51,36 +51,45 @@ class _MyHomePageState extends State<MyHomePage> {
             child: (_data != null)
                 ? Padding(
                     padding: const EdgeInsets.all(8.0),
-                    child: Column(children: [
-                      Text(
-                        'Restaurant App',
-                        style: TextStyle(),
-                      ),
-                      Text('Here is our Reccomendation for You!'),
-                      Column(
-                        children: _data!.restaurants
-                            .map((e) => RestaurantItem(restaurants: e))
-                            .toList(),
-                      )
-                    ]),
+                    child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Padding(
+                            padding: const EdgeInsets.symmetric(vertical: 12),
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: const [
+                                Text(
+                                  'Restaurant App',
+                                  style: TextStyle(),
+                                ),
+                                Text('Here is our Reccomendation for You!')
+                              ],
+                            ),
+                          ),
+                          Column(
+                            children: _data!.restaurants
+                                .map((e) => RestaurantItem(restaurants: e))
+                                .toList(),
+                          )
+                        ]),
                   )
-                : Expanded(
-                  child: Container(
+                : Container(
                     child: Center(
                         child: Text(
-                    'Failed to load data :(\nPlease Restart the App!',
-                    style: TextStyle(),
-                      )),
-                  ),
-                )),
+                      'Failed to load data :(\nPlease Restart the App!',
+                      style: TextStyle(),
+                    )),
+                  )),
       ),
     );
   }
 
-  Future initData() async {
+  void initData() async {
     _data ??= Data.fromJson(
         json.decode(await rootBundle.loadString("assets/data.json")));
-    setState((){});
-    FlutterNativeSplash.remove();
+    setState(() {
+      FlutterNativeSplash.remove();
+    });
   }
 }
