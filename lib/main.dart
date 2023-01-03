@@ -46,6 +46,14 @@ class _MyHomePageState extends State<MyHomePage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      appBar: AppBar(
+        backgroundColor: Colors.deepOrange,
+        elevation: 0,
+        toolbarHeight: 0,
+        systemOverlayStyle: const SystemUiOverlayStyle(
+          statusBarColor: Colors.deepOrange,
+        ),
+      ),
       body: SafeArea(
           child: (_data != null)
               ? NestedScrollView(
@@ -83,13 +91,11 @@ class _MyHomePageState extends State<MyHomePage> {
                   itemCount: _data!.restaurants.length),
             ),
           )
-              : Container(
-            child: Center(
-                child: Text(
-                  'Failed to load data :(\nPlease Restart the App!',
-                  style: TextStyle(),
-                )),
-          )),
+              : const Center(
+                  child: Text(
+                    'Failed to load data :(\nPlease Restart the App!',
+                    style: TextStyle(),
+                  ))),
     );
   }
 
