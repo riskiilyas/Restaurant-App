@@ -1,6 +1,7 @@
 
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:restaurant_app/bloc/bloc_detail.dart';
 import 'package:restaurant_app/widget/menu_card.dart';
 
@@ -21,6 +22,7 @@ class DetailScreen extends StatelessWidget {
       ),
       body: SafeArea(
         child: BlocBuilder(
+          bloc: bloc,
           builder: (context, state) {
             if(state is RestaurantStateDetailSuccess) {
               var restaurants = state.data.restaurant;
@@ -29,6 +31,7 @@ class DetailScreen extends StatelessWidget {
                   return [
                     SliverAppBar(
                       title: Text(restaurants.name),
+                      backgroundColor: Colors.deepOrange,
                       floating: true,
                       snap: true,
                     )
@@ -42,7 +45,7 @@ class DetailScreen extends StatelessWidget {
                           const BorderRadius.vertical(bottom: Radius.circular(16)),
                           child: Hero(
                               tag: restaurants.pictureId,
-                              child: Image.network(restaurants.pictureId))),
+                              child: Image.network("https://restaurant-api.dicoding.dev/images/large/${restaurants.pictureId}")),),
                       Padding(
                         padding: const EdgeInsets.all(12),
                         child: Column(
@@ -140,9 +143,51 @@ class DetailScreen extends StatelessWidget {
                 ),
               );
             } else if(state is RestaurantStateDetailError) {
-              return Text('');
+              return SizedBox(
+                width: double.infinity,
+                height: double.infinity,
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  children: [
+                    Text('Error: ${state.msg}', textAlign: TextAlign.center,style: const TextStyle(fontSize: 24),),
+                    const SizedBox(
+                      height: 20,
+                    ),
+                    InkWell(
+                      onTap: () => bloc.add(RestaurantEventDetail(id: id)),
+                      child: Container(
+                        decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(10),
+                          color: Colors.deepOrange,
+                        ),
+                        height: 50,
+                        child: Padding(
+                          padding: const EdgeInsets.all(8.0),
+                          child: Column(
+                            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                            children: const [
+                              Text(
+                                'Click here to refresh!',
+                                textAlign: TextAlign.center,
+                                style: TextStyle(
+                                    color: Colors.white, fontWeight: FontWeight.bold),
+                              ),
+                            ],
+                          ),
+                        ),
+                      ),
+                    )
+                  ],
+                ),
+              );
             }
-            return Text('');
+            return const Center(
+              child: SpinKitWave(
+                color: Colors.deepOrange,
+                size: 64,
+              ),
+            );
           }
         ),
       ),

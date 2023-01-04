@@ -12,7 +12,7 @@ class Network {
   Future<RestaurantDetail> getDetail(String id) async {
     final result = await http.Client().get(Uri.parse('$_baseurl/detail/$id'));
     if(result.statusCode>=400) throw Exception();
-    return RestaurantDetail.fromJson(result.body);
+    return RestaurantDetail.fromJson(json.decode(result.body));
   }
 
   Future<RestaurantList> getList() async {

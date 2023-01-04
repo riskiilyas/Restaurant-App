@@ -23,6 +23,7 @@ class RestaurantStateListSuccess extends RestaurantStateList {
 ///////////////////// BLoC /////////////////////
 class RestaurantListBloc extends Bloc<RestaurantEvent, RestaurantStateList> {
   final network = Network();
+  // final Function(RestaurantStateList) onStateChanged;
 
   RestaurantListBloc(): super(RestaurantStateListLoading()) {
     on<RestaurantEventList>((event, emit) async {
@@ -35,8 +36,17 @@ class RestaurantListBloc extends Bloc<RestaurantEvent, RestaurantStateList> {
           emit(RestaurantStateListSuccess(data: model));
         }
       } on Exception catch (e) {
+        print('aaaakii');
         emit(RestaurantStateListError(msg: e.toString()));
       }
     });
+
+
+  }
+
+  @override
+  void onChange(Change<RestaurantStateList> change) {
+    super.onChange(change);
+    // onStateChanged(change.nextState);
   }
 }

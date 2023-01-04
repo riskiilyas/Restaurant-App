@@ -6,9 +6,10 @@ import 'package:restaurant_app/widget/restaurant_item.dart';
 
 class RestaurantSearchDelegate extends SearchDelegate {
 
-  RestaurantSearchDelegate({required this.bloc});
+  RestaurantSearchDelegate({required this.bloc, required this.onSearch});
 
   final RestaurantSearchBloc bloc;
+  final Function(String) onSearch;
 
   @override
   List<Widget>? buildActions(BuildContext context) {
@@ -42,13 +43,13 @@ class RestaurantSearchDelegate extends SearchDelegate {
               list
                   .map((e) => Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 8),
-                child: RestaurantItem(restaurants: e),
+                child: RestaurantItem(restaurants: e, onClicked: onSearch,),
               ))
                   .toList()[i],
               separatorBuilder: (ctx, id) => const SizedBox(),
               itemCount: list.length);
         } else if(state is RestaurantStateSearchError) {
-          return Text(state.msg==null ? "" : state.msg!);
+          return Center(child: Text(state.msg==null ? "" : "Error: ${state.msg}"));
         } else if(state is RestaurantStateSearchLoading) {
           return const Center(
             child: SpinKitWave(

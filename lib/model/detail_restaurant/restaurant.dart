@@ -45,7 +45,7 @@ class Restaurant {
   late String pictureId;
   late List<Categories> categories;
   late Menus menus;
-  late double rating;
+  late dynamic rating;
   late List<CustomerReviews> customerReviews;
 
   Map<String, dynamic> toJson() {

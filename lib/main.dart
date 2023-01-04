@@ -23,6 +23,7 @@ class MyApp extends StatelessWidget {
         title: 'Resturant App',
         theme: ThemeData(
           primarySwatch: Colors.deepOrange,
+          primaryColor: Colors.deepOrange
         ),
         home: MultiBlocProvider(
           providers: [
