@@ -40,7 +40,7 @@ class _MyHomePageState extends State<MyHomePage> {
   Data? _data;
 
   _MyHomePageState() {
-    initData();
+    _initData();
   }
 
   @override
@@ -54,49 +54,54 @@ class _MyHomePageState extends State<MyHomePage> {
       body: SafeArea(
           child: (_data != null)
               ? NestedScrollView(
-            headerSliverBuilder: (context, innerBoxIsScrolled) {
-              return [
-                SliverAppBar(
-                  actions: [
-                    IconButton(
-                        onPressed: () {
-                          showSearch(context: context,
-                            delegate: RestaurantSearchDelegate(data: _data!),);
-                        }, icon: const Icon(Icons.search))
-                  ],
-                  flexibleSpace: FlexibleSpaceBar(
-                    title: const Text("Restaurant App"),
-                    background: Image.asset(
-                      'assets/header.png',
-                      fit: BoxFit.fill,
-                    ),
-                    titlePadding: const EdgeInsets.only(left: 8, bottom: 16),
+                  headerSliverBuilder: (context, innerBoxIsScrolled) {
+                    return [
+                      SliverAppBar(
+                        actions: [
+                          IconButton(
+                              onPressed: () {
+                                showSearch(
+                                  context: context,
+                                  delegate:
+                                      RestaurantSearchDelegate(data: _data!),
+                                );
+                              },
+                              icon: const Icon(Icons.search))
+                        ],
+                        flexibleSpace: FlexibleSpaceBar(
+                          title: const Text("Restaurant App"),
+                          background: Image.asset(
+                            'assets/header.png',
+                            fit: BoxFit.fill,
+                          ),
+                          titlePadding:
+                              const EdgeInsets.only(left: 8, bottom: 16),
+                        ),
+                        expandedHeight: 200,
+                        pinned: true,
+                      )
+                    ];
+                  },
+                  body: Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: ListView.separated(
+                        itemBuilder: (context, i) => _data!.restaurants
+                            .map((e) => RestaurantItem(restaurants: e))
+                            .toList()[i],
+                        separatorBuilder: (ctx, id) => const SizedBox(),
+                        itemCount: _data!.restaurants.length),
                   ),
-                  expandedHeight: 200,
-                  pinned: true,
                 )
-              ];
-            },
-            body: Padding(
-              padding: const EdgeInsets.all(8.0),
-              child: ListView.separated(
-                  itemBuilder: (context, i) =>
-                  _data!.restaurants
-                      .map((e) => RestaurantItem(restaurants: e))
-                      .toList()[i],
-                  separatorBuilder: (ctx, id) => const SizedBox(),
-                  itemCount: _data!.restaurants.length),
-            ),
-          )
               : const Center(
                   child: Text(
                     'Failed to load data :(\nPlease Restart the App!',
                     style: TextStyle(),
-                  ))),
+                  ),
+                )),
     );
   }
 
-  void initData() async {
+  void _initData() async {
     _data ??= Data.fromJson(
         json.decode(await rootBundle.loadString("assets/data.json")));
     setState(() {
