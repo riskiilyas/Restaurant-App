@@ -2,7 +2,6 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:restaurant_app/model/detail_restaurant/restaurant_detail.dart';
 import 'package:restaurant_app/model/list_restaurant/restaurant_list.dart';
 import 'package:restaurant_app/network.dart';
-import '../data/data.dart';
 import '../model/search_restaurant/restaurant_search.dart';
 
 ///////////////////// EVENT /////////////////////
@@ -13,33 +12,33 @@ class RestaurantEventSearch extends RestaurantEvent {
 }
 
 ///////////////////// STATE ///////////////////
-class RestaurantState {}
-class RestaurantStateLoading extends RestaurantState {}
-class RestaurantStateError extends RestaurantState {
+class RestaurantStateSearch {}
+class RestaurantStateSearchLoading extends RestaurantStateSearch {}
+class RestaurantStateSearchError extends RestaurantStateSearch {
   final String? msg;
-  RestaurantStateError({this.msg});
+  RestaurantStateSearchError({this.msg});
 }
-class RestaurantStateSearch extends RestaurantState {
+class RestaurantStateSearchSuccess extends RestaurantStateSearch {
   final SearchRestaurant data;
-  RestaurantStateSearch({required this.data});
+  RestaurantStateSearchSuccess({required this.data});
 }
 
 ///////////////////// BLoC /////////////////////
-class RestaurantBloc extends Bloc<RestaurantEvent, RestaurantState> {
+class RestaurantSearchBloc extends Bloc<RestaurantEvent, RestaurantStateSearch> {
   final network = Network();
 
-  RestaurantBloc(): super(RestaurantStateLoading()) {
+  RestaurantSearchBloc(): super(RestaurantStateSearchLoading()) {
     on<RestaurantEventSearch>((event, emit) async {
-      emit(RestaurantStateLoading());
+      emit(RestaurantStateSearchLoading());
       try {
         final model = await network.getSearch(event.query);
         if(model.error) {
-          emit(RestaurantStateError());
+          emit(RestaurantStateSearchError());
         } else {
-          emit(RestaurantStateSearch(data: model));
+          emit(RestaurantStateSearchSuccess(data: model));
         }
       } on Exception catch (e) {
-        emit(RestaurantStateError(msg: e.toString()));
+        emit(RestaurantStateSearchError(msg: e.toString()));
       }
     });
   }

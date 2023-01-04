@@ -2,7 +2,6 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:restaurant_app/model/detail_restaurant/restaurant_detail.dart';
 import 'package:restaurant_app/model/list_restaurant/restaurant_list.dart';
 import 'package:restaurant_app/network.dart';
-import '../data/data.dart';
 import '../model/search_restaurant/restaurant_search.dart';
 
 ///////////////////// EVENT /////////////////////
@@ -10,33 +9,33 @@ class RestaurantEvent {}
 class RestaurantEventList extends RestaurantEvent {}
 
 ///////////////////// STATE ///////////////////
-class RestaurantState {}
-class RestaurantStateLoading extends RestaurantState {}
-class RestaurantStateError extends RestaurantState {
+class RestaurantStateList {}
+class RestaurantStateListLoading extends RestaurantStateList {}
+class RestaurantStateListError extends RestaurantStateList {
   final String? msg;
-  RestaurantStateError({this.msg});
+  RestaurantStateListError({this.msg});
 }
-class RestaurantStateList extends RestaurantState {
+class RestaurantStateListSuccess extends RestaurantStateList {
   final RestaurantList data;
-  RestaurantStateList({required this.data});
+  RestaurantStateListSuccess({required this.data});
 }
 
 ///////////////////// BLoC /////////////////////
-class RestaurantBloc extends Bloc<RestaurantEvent, RestaurantState> {
+class RestaurantListBloc extends Bloc<RestaurantEvent, RestaurantStateList> {
   final network = Network();
 
-  RestaurantBloc(): super(RestaurantStateLoading()) {
+  RestaurantListBloc(): super(RestaurantStateListLoading()) {
     on<RestaurantEventList>((event, emit) async {
-      emit(RestaurantStateLoading());
+      emit(RestaurantStateListLoading());
       try {
         final model = await network.getList();
         if(model.error) {
-          emit(RestaurantStateError(msg: model.message));
+          emit(RestaurantStateListError(msg: model.message));
         } else {
-          emit(RestaurantStateList(data: model));
+          emit(RestaurantStateListSuccess(data: model));
         }
       } on Exception catch (e) {
-        emit(RestaurantStateError(msg: e.toString()));
+        emit(RestaurantStateListError(msg: e.toString()));
       }
     });
   }

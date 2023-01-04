@@ -4,8 +4,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_native_splash/flutter_native_splash.dart';
+import 'package:restaurant_app/bloc/bloc_detail.dart';
 import 'package:restaurant_app/bloc/bloc_list.dart';
-import 'package:restaurant_app/data/data.dart';
+import 'package:restaurant_app/bloc/bloc_search.dart';
 import 'package:restaurant_app/model/list_restaurant/restaurant_list.dart';
 import 'package:restaurant_app/widget/restaurant_item.dart';
 import 'package:restaurant_app/widget/restaurant_search_delegate.dart';
@@ -27,7 +28,11 @@ class MyApp extends StatelessWidget {
         primarySwatch: Colors.deepOrange,
       ),
       home: MultiBlocProvider(
-        providers: [BlocProvider(create: (BuildContext) => RestaurantBloc())],
+        providers: [
+          BlocProvider(create: (_) => RestaurantListBloc()),
+          BlocProvider(create: (_) => RestaurantDetailBloc()),
+          BlocProvider(create: (_) => RestaurantSearchBloc()),
+        ],
         child: const MyHomePage(title: 'Restaurant App'),
       )
     );
@@ -43,11 +48,10 @@ class MyHomePage extends StatefulWidget {
 }
 
 class _MyHomePageState extends State<MyHomePage> {
-  RestaurantList? _restaurantList;
 
   @override
   Widget build(BuildContext context) {
-    var bloc = BlocProvider.of<RestaurantBloc>(context);
+    var bloc = BlocProvider.of<RestaurantListBloc>(context);
     bloc.add(RestaurantEventList());
     FlutterNativeSplash.remove();
     return Scaffold(
@@ -57,7 +61,7 @@ class _MyHomePageState extends State<MyHomePage> {
         toolbarHeight: 0,
       ),
       body: SafeArea(
-          child: BlocBuilder<RestaurantBloc, RestaurantState>(
+          child: BlocBuilder<RestaurantListBloc, RestaurantStateList>(
             builder: (context, state) {
                return NestedScrollView(
                     headerSliverBuilder: (context, innerBoxIsScrolled) {
@@ -99,15 +103,15 @@ class _MyHomePageState extends State<MyHomePage> {
     );
   }
 
-  Widget buildList(RestaurantState state) {
-    if(state is RestaurantStateList) {
+  Widget buildList(RestaurantStateList state) {
+    if(state is RestaurantStateListSuccess) {
       return ListView.separated(
-          itemBuilder: (context, i) => _restaurantList!.restaurants
+          itemBuilder: (context, i) => state.data.restaurants
               .map((e) => RestaurantItem(restaurants: e))
               .toList()[i],
           separatorBuilder: (ctx, id) => const SizedBox(),
-          itemCount: _restaurantList!.restaurants.length);
-    } else if(state is RestaurantStateError) {
+          itemCount: state.data.restaurants.length);
+    } else if(state is RestaurantStateSearchError) {
       return Text('');
     }
     return Text('');
