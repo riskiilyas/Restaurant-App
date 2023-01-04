@@ -1,13 +1,13 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:restaurant_app/model/detail_restaurant/restaurant_detail.dart';
 import 'package:restaurant_app/model/list_restaurant/restaurant_list.dart';
-import 'package:restaurant_app/network.dart';
+import 'package:restaurant_app/util/network.dart';
 import '../model/search_restaurant/restaurant_search.dart';
 
 ///////////////////// EVENT /////////////////////
 class RestaurantEvent {}
 class RestaurantEventDetail extends RestaurantEvent {
-  final int id;
+  final String id;
   RestaurantEventDetail({required this.id});
 }
 

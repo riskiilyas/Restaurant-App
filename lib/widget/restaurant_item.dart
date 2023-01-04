@@ -1,8 +1,12 @@
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
+import 'package:get/get_core/src/get_main.dart';
+import 'package:restaurant_app/bloc/bloc_detail.dart';
 import 'package:restaurant_app/widget/toast_layout.dart';
 
-import '../detail_screen.dart';
+import '../screen/detail_screen.dart';
 import '../model/restaurants.dart';
 
 class RestaurantItem extends StatelessWidget {
@@ -23,13 +27,10 @@ class RestaurantItem extends StatelessWidget {
           toastDuration: const Duration(seconds: 2),
         );
 
-        Navigator.push(
-            context,
-            MaterialPageRoute(
-                builder: (context) => DetailScreen(
-                      restaurants: restaurants,
-                    )));
-      },
+        Get.to(() => BlocProvider.value(
+            value: BlocProvider.of<RestaurantDetailBloc>(context),
+            child: DetailScreen(id: restaurants.id))
+        );      },
       child: Container(
         padding: const EdgeInsets.symmetric(vertical: 8),
         height: 100,
