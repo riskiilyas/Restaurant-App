@@ -1,5 +1,5 @@
-import 'Foods.dart';
-import 'Drinks.dart';
+import 'foods.dart';
+import 'drinks.dart';
 
 class Menus {
   Menus({

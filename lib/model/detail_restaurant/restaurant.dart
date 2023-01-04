@@ -1,6 +1,6 @@
-import 'Categories.dart';
-import 'Menus.dart';
-import 'CustomerReviews.dart';
+import 'categories.dart';
+import 'menus.dart';
+import 'customer_reviews.dart';
 
 class Restaurant {
   Restaurant({

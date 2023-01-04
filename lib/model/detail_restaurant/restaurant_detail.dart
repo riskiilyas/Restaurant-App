@@ -1,4 +1,4 @@
-import 'Restaurant.dart';
+import 'restaurant.dart';
 
 class RestaurantDetail {
   RestaurantDetail({
