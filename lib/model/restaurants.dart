@@ -20,7 +20,7 @@ class Restaurants {
   late String description;
   late String pictureId;
   late String city;
-  late double rating;
+  late dynamic rating;
 
   Map<String, dynamic> toJson() {
     final map = <String, dynamic>{};

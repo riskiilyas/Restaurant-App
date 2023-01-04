@@ -18,13 +18,13 @@ class Network {
   Future<RestaurantList> getList() async {
     final result = await http.Client().get(Uri.parse('$_baseurl/list'));
     if(result.statusCode>=400) throw Exception();
-    return RestaurantList.fromJson(result.body);
+    return RestaurantList.fromJson(json.decode(result.body));
   }
 
   Future<SearchRestaurant> getSearch(String query) async {
     final result = await http.Client().get(Uri.parse('$_baseurl/search?q=$query'));
-    if(result.statusCode>=400) throw Exception();
-    return SearchRestaurant.fromJson(result.body);
+    if(result.statusCode>=400) throw Exception(result.statusCode.toString());
+    return SearchRestaurant.fromJson(json.decode(result.body));
   }
 
 }

@@ -43,7 +43,7 @@ class RestaurantItem extends StatelessWidget {
                   child: Hero(
                     tag: restaurants.pictureId,
                     child: Image.network(
-                      restaurants.pictureId,
+                      "https://restaurant-api.dicoding.dev/images/medium/${restaurants.pictureId}",
                       height: 100,
                       width: 140,
                       alignment: Alignment.centerLeft,

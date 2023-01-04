@@ -1,10 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:restaurant_app/bloc/bloc_list.dart';
+import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:restaurant_app/bloc/bloc_search.dart';
 import 'package:restaurant_app/widget/restaurant_item.dart';
 
 class RestaurantSearchDelegate extends SearchDelegate {
+
+  RestaurantSearchDelegate({required this.bloc});
+
+  final RestaurantSearchBloc bloc;
 
   @override
   List<Widget>? buildActions(BuildContext context) {
@@ -24,14 +28,16 @@ class RestaurantSearchDelegate extends SearchDelegate {
 
   @override
   Widget buildResults(BuildContext context) {
-    var bloc = BlocProvider.of<RestaurantSearchBloc>(context);
-    bloc.add(RestaurantEventSearch(query: query));
+    if(query.isNotEmpty) {
+      bloc.add(RestaurantEventSearch(query: query));
+    }
 
     return BlocBuilder(
+      bloc: bloc,
       builder: (context, state) {
         if (state is RestaurantStateSearchSuccess) {
           var list = state.data.restaurants;
-            ListView.separated(
+            return ListView.separated(
               itemBuilder: (context, i) =>
               list
                   .map((e) => Padding(
@@ -42,9 +48,15 @@ class RestaurantSearchDelegate extends SearchDelegate {
               separatorBuilder: (ctx, id) => const SizedBox(),
               itemCount: list.length);
         } else if(state is RestaurantStateSearchError) {
-
-        }
-        return Text('');
+          return Text(state.msg==null ? "" : state.msg!);
+        } else if(state is RestaurantStateSearchLoading) {
+          return const Center(
+            child: SpinKitWave(
+              color: Colors.deepOrange,
+              size: 64,
+            ),
+          );        }
+        return Container();
       }
     );
   }

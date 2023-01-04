@@ -27,7 +27,7 @@ class RestaurantStateSearchSuccess extends RestaurantStateSearch {
 class RestaurantSearchBloc extends Bloc<RestaurantEvent, RestaurantStateSearch> {
   final network = Network();
 
-  RestaurantSearchBloc(): super(RestaurantStateSearchLoading()) {
+  RestaurantSearchBloc(): super(RestaurantStateSearch()) {
     on<RestaurantEventSearch>((event, emit) async {
       emit(RestaurantStateSearchLoading());
       try {

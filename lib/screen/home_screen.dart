@@ -40,7 +40,7 @@ class _MyHomePageState extends State<HomeScreen> {
                                   showSearch(
                                     context: context,
                                     delegate:
-                                    RestaurantSearchDelegate(),
+                                    RestaurantSearchDelegate(bloc: BlocProvider.of<RestaurantSearchBloc>(context)),
                                   );
                                 },
                                 icon: const Icon(Icons.search))
