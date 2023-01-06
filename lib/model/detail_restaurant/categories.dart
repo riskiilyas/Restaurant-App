@@ -1,10 +1,12 @@
 class Categories {
   Categories({
-      required this.name,});
+    required this.name,
+  });
 
   Categories.fromJson(dynamic json) {
     name = json['name'];
   }
+
   late String name;
 
   Map<String, dynamic> toJson() {
@@ -12,5 +14,4 @@ class Categories {
     map['name'] = name;
     return map;
   }
-
 }

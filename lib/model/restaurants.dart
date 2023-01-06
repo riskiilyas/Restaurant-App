@@ -1,11 +1,12 @@
 class Restaurants {
   Restaurants({
-      required this.id,
-      required this.name,
-      required this.description,
-      required this.pictureId,
-      required this.city,
-      required this.rating,});
+    required this.id,
+    required this.name,
+    required this.description,
+    required this.pictureId,
+    required this.city,
+    required this.rating,
+  });
 
   Restaurants.fromJson(dynamic json) {
     id = json['id'];
@@ -15,6 +16,7 @@ class Restaurants {
     city = json['city'];
     rating = json['rating'];
   }
+
   late String id;
   late String name;
   late String description;
@@ -32,5 +34,4 @@ class Restaurants {
     map['rating'] = rating;
     return map;
   }
-
 }

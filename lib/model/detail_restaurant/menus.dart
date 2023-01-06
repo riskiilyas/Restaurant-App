@@ -3,8 +3,9 @@ import 'drinks.dart';
 
 class Menus {
   Menus({
-      required this.foods,
-      required this.drinks,});
+    required this.foods,
+    required this.drinks,
+  });
 
   Menus.fromJson(dynamic json) {
     if (json['foods'] != null) {
@@ -20,6 +21,7 @@ class Menus {
       });
     }
   }
+
   late List<Foods> foods;
   late List<Drinks> drinks;
 
@@ -29,5 +31,4 @@ class Menus {
     map['drinks'] = drinks.map((v) => v.toJson()).toList();
     return map;
   }
-
 }

@@ -1,19 +1,15 @@
-import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:flutter/material.dart';
-import 'package:get/get.dart';
-import 'package:get/get_core/src/get_main.dart';
-import 'package:restaurant_app/bloc/bloc_detail.dart';
 import 'package:restaurant_app/widget/toast_layout.dart';
-
-import '../screen/detail_screen.dart';
 import '../model/restaurants.dart';
 
 class RestaurantItem extends StatelessWidget {
   final Restaurants restaurants;
   final Function(String) onClicked;
 
-  const RestaurantItem({Key? key, required this.restaurants, required this.onClicked}) : super(key: key);
+  const RestaurantItem(
+      {Key? key, required this.restaurants, required this.onClicked})
+      : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -29,7 +25,7 @@ class RestaurantItem extends StatelessWidget {
         );
 
         onClicked(restaurants.id);
-        },
+      },
       child: Container(
         padding: const EdgeInsets.symmetric(vertical: 8),
         height: 100,

@@ -1,12 +1,8 @@
-import 'dart:io';
-
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_native_splash/flutter_native_splash.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:get/get.dart';
-import 'package:get/get_core/src/get_main.dart';
 import 'package:restaurant_app/bloc/bloc_list.dart';
 import 'package:restaurant_app/bloc/bloc_search.dart';
 import 'package:restaurant_app/widget/restaurant_item.dart';
@@ -105,7 +101,11 @@ class _MyHomePageState extends State<HomeScreen> {
           mainAxisAlignment: MainAxisAlignment.center,
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
-            Text('Error: ${state.msg}', textAlign: TextAlign.center,style: const TextStyle(fontSize: 24),),
+            Text(
+              'Error: ${state.msg}',
+              textAlign: TextAlign.center,
+              style: const TextStyle(fontSize: 24),
+            ),
             const SizedBox(
               height: 20,
             ),

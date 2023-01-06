@@ -2,10 +2,11 @@ import '../restaurants.dart';
 
 class RestaurantList {
   RestaurantList({
-      required this.error,
-      required this.message,
-      required this.count,
-      required this.restaurants,});
+    required this.error,
+    required this.message,
+    required this.count,
+    required this.restaurants,
+  });
 
   RestaurantList.fromJson(dynamic json) {
     error = json['error'];
@@ -18,6 +19,7 @@ class RestaurantList {
       });
     }
   }
+
   late bool error;
   late String message;
   late int count;
@@ -31,5 +33,4 @@ class RestaurantList {
     map['restaurants'] = restaurants.map((v) => v.toJson()).toList();
     return map;
   }
-
 }

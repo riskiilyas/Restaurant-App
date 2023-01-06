@@ -4,16 +4,17 @@ import 'customer_reviews.dart';
 
 class Restaurant {
   Restaurant({
-      required this.id,
-      required this.name,
-      required this.description,
-      required this.city,
-      required this.address,
-      required this.pictureId,
-      required this.categories,
-      required this.menus,
-      required this.rating,
-      required this.customerReviews,});
+    required this.id,
+    required this.name,
+    required this.description,
+    required this.city,
+    required this.address,
+    required this.pictureId,
+    required this.categories,
+    required this.menus,
+    required this.rating,
+    required this.customerReviews,
+  });
 
   Restaurant.fromJson(dynamic json) {
     id = json['id'];
@@ -37,6 +38,7 @@ class Restaurant {
       });
     }
   }
+
   late String id;
   late String name;
   late String description;
@@ -62,5 +64,4 @@ class Restaurant {
     map['customerReviews'] = customerReviews.map((v) => v.toJson()).toList();
     return map;
   }
-
 }

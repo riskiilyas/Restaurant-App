@@ -2,15 +2,19 @@ import 'restaurant.dart';
 
 class RestaurantDetail {
   RestaurantDetail({
-      required this.error,
-      required this.message,
-      required this.restaurant,});
+    required this.error,
+    required this.message,
+    required this.restaurant,
+  });
 
   RestaurantDetail.fromJson(dynamic json) {
     error = json['error'];
     message = json['message'];
-    restaurant = (json['restaurant'] != null ? Restaurant.fromJson(json['restaurant']) : null)!;
+    restaurant = (json['restaurant'] != null
+        ? Restaurant.fromJson(json['restaurant'])
+        : null)!;
   }
+
   late bool error;
   late String message;
   late Restaurant restaurant;
@@ -22,5 +26,4 @@ class RestaurantDetail {
     map['restaurant'] = restaurant.toJson();
     return map;
   }
-
 }

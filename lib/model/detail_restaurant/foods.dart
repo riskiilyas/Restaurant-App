@@ -1,10 +1,12 @@
 class Foods {
   Foods({
-      required this.name,});
+    required this.name,
+  });
 
   Foods.fromJson(dynamic json) {
     name = json['name'];
   }
+
   late String name;
 
   Map<String, dynamic> toJson() {
@@ -12,5 +14,4 @@ class Foods {
     map['name'] = name;
     return map;
   }
-
 }

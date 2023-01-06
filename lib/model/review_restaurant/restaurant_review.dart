@@ -2,9 +2,10 @@ import '../detail_restaurant/customer_reviews.dart';
 
 class RestaurantReview {
   RestaurantReview({
-      required this.error,
-      required this.message,
-      required this.customerReviews,});
+    required this.error,
+    required this.message,
+    required this.customerReviews,
+  });
 
   RestaurantReview.fromJson(dynamic json) {
     error = json['error'];
@@ -25,10 +26,7 @@ class RestaurantReview {
     final map = <String, dynamic>{};
     map['error'] = error;
     map['message'] = message;
-    if (customerReviews != null) {
-      map['customerReviews'] = customerReviews.map((v) => v.toJson()).toList();
-    }
+    map['customerReviews'] = customerReviews.map((v) => v.toJson()).toList();
     return map;
   }
-
 }

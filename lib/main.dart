@@ -20,20 +20,18 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return GetMaterialApp(
       home: MaterialApp(
-        title: 'Resturant App',
-        theme: ThemeData(
-          primarySwatch: Colors.deepOrange,
-          primaryColor: Colors.deepOrange
-        ),
-        home: MultiBlocProvider(
-          providers: [
-            BlocProvider(create: (_) => RestaurantListBloc()),
-            BlocProvider(create: (_) => RestaurantDetailBloc()),
-            BlocProvider(create: (_) => RestaurantSearchBloc()),
-          ],
-          child: const HomeScreen(title: 'Restaurant App'),
-        )
-      ),
+          title: 'Resturant App',
+          theme: ThemeData(
+              primarySwatch: Colors.deepOrange,
+              primaryColor: Colors.deepOrange),
+          home: MultiBlocProvider(
+            providers: [
+              BlocProvider(create: (_) => RestaurantListBloc()),
+              BlocProvider(create: (_) => RestaurantDetailBloc()),
+              BlocProvider(create: (_) => RestaurantSearchBloc()),
+            ],
+            child: const HomeScreen(title: 'Restaurant App'),
+          )),
     );
   }
 }
