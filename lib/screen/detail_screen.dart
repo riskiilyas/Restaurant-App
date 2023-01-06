@@ -1,9 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:restaurant_app/bloc/bloc_detail.dart';
+import 'package:restaurant_app/util/network.dart';
 import 'package:restaurant_app/widget/menu_card.dart';
 import 'package:restaurant_app/widget/review_item.dart';
+
+import '../widget/toast_layout.dart';
 
 class DetailScreen extends StatelessWidget {
   const DetailScreen({Key? key, required this.id}) : super(key: key);
@@ -15,6 +19,97 @@ class DetailScreen extends StatelessWidget {
     var bloc = BlocProvider.of<RestaurantDetailBloc>(context);
     bloc.add(RestaurantEventDetail(id: id));
     return Scaffold(
+      floatingActionButton: FloatingActionButton(
+        onPressed: () {
+          final nameController = TextEditingController();
+          final reviewController = TextEditingController();
+
+          showDialog(
+              context: context,
+              builder: (context) => AlertDialog(
+                    title: const Text('Write Your Review'),
+                    content: Column(
+                      mainAxisSize: MainAxisSize.min,
+                      children: [
+                        TextField(
+                          controller: nameController,
+                          cursorColor: Colors.deepOrange,
+                          decoration: const InputDecoration(
+                            hintText: 'Enter Your Name',
+                            enabledBorder: OutlineInputBorder(
+                                borderSide: BorderSide(
+                                    color: Colors.deepOrange, width: 2)),
+                            focusedBorder: UnderlineInputBorder(
+                                borderSide:
+                                    BorderSide(color: Colors.deepOrange)),
+                          ),
+                        ),
+                        const SizedBox(
+                          height: 12,
+                        ),
+                        TextField(
+                          controller: reviewController,
+                          cursorColor: Colors.deepOrange,
+                          maxLines: 6,
+                          keyboardType: TextInputType.multiline,
+                          decoration: const InputDecoration(
+                            hintText: 'Enter Your Review',
+                            enabledBorder: OutlineInputBorder(
+                                borderSide: BorderSide(
+                                    color: Colors.deepOrange, width: 2)),
+                            focusedBorder: UnderlineInputBorder(
+                                borderSide:
+                                    BorderSide(color: Colors.deepOrange)),
+                          ),
+                        )
+                      ],
+                    ),
+                    actions: [
+                      TextButton(
+                          onPressed: () => Navigator.pop(context),
+                          child: const Text(
+                            'Cancel',
+                            style: TextStyle(color: Colors.black54),
+                          )),
+                      TextButton(
+                          onPressed: () {
+                            var fToast = FToast();
+                            fToast.init(context);
+
+                            var network = Network();
+                            network
+                                .postReview(id, nameController.text,
+                                    reviewController.text)
+                                .then((result) {
+                              fToast.showToast(
+                                child: const ToastLayout(
+                                    msg: 'Successfully Sent Your Review!'),
+                                gravity: ToastGravity.BOTTOM,
+                                toastDuration: const Duration(seconds: 2),
+                              );
+                              if (result.error) throw Exception();
+                              bloc.add(RestaurantEventDetail(id: id));
+                            }).catchError((e) {
+                              fToast.showToast(
+                                child: const ToastLayout(
+                                    msg: 'Failed Sending Review!'),
+                                gravity: ToastGravity.BOTTOM,
+                                toastDuration: const Duration(seconds: 2),
+                              );
+                            }).whenComplete(() => Navigator.pop(context));
+                          },
+                          child: const Text(
+                            'Submit',
+                            style: TextStyle(color: Colors.deepOrange),
+                          )),
+                    ],
+                  ));
+        },
+        backgroundColor: Colors.deepOrange,
+        child: const Icon(
+          Icons.reviews,
+        ),
+      ),
       appBar: AppBar(
         backgroundColor: Colors.deepOrange,
         elevation: 0,
@@ -62,7 +157,9 @@ class DetailScreen extends StatelessWidget {
                                 style: const TextStyle(
                                     fontWeight: FontWeight.bold, fontSize: 24),
                               ),
-                              const SizedBox(height: 4,),
+                              const SizedBox(
+                                height: 4,
+                              ),
                               Row(
                                 children: [
                                   const Icon(
@@ -139,23 +236,34 @@ class DetailScreen extends StatelessWidget {
                                 ),
                               ),
                               const Divider(),
-                              const SizedBox(height: 12,),
+                              const SizedBox(
+                                height: 12,
+                              ),
                               const Text(
                                 'Reviews',
                                 style: TextStyle(
                                     fontWeight: FontWeight.bold, fontSize: 24),
-                              ),                          SizedBox(
-                                child: ListView.builder(
-                                  itemBuilder: (ctx, i) {
-                                    return ReviewItem(
-                                        customerReviews:
-                                            restaurants.customerReviews[i]);
-                                  },
-                                  itemCount: restaurants.customerReviews.length,
-                                  shrinkWrap: true,
-                                  physics: const NeverScrollableScrollPhysics(),
-                                ),
-                              )
+                              ),
+                              BlocBuilder(
+                                  bloc: bloc,
+                                  builder: (context, stateReview) {
+                                    var reviews = (stateReview
+                                            is RestaurantStateDetailReview)
+                                        ? stateReview.reviews
+                                        : restaurants.customerReviews;
+                                    return SizedBox(
+                                      child: ListView.builder(
+                                        itemBuilder: (ctx, i) {
+                                          return ReviewItem(
+                                              customerReviews: reviews[i]);
+                                        },
+                                        itemCount: reviews.length,
+                                        shrinkWrap: true,
+                                        physics:
+                                            const NeverScrollableScrollPhysics(),
+                                      ),
+                                    );
+                                  })
                             ],
                           ),
                         )

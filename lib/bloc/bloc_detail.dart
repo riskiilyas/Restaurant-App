@@ -1,4 +1,5 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:restaurant_app/model/detail_restaurant/customer_reviews.dart';
 import 'package:restaurant_app/model/detail_restaurant/restaurant_detail.dart';
 import 'package:restaurant_app/model/list_restaurant/restaurant_list.dart';
 import 'package:restaurant_app/util/network.dart';
@@ -9,6 +10,10 @@ class RestaurantEvent {}
 class RestaurantEventDetail extends RestaurantEvent {
   final String id;
   RestaurantEventDetail({required this.id});
+}
+class RestaurantEventDetailAddReview extends RestaurantEvent {
+  final List<CustomerReviews> reviews;
+  RestaurantEventDetailAddReview({required this.reviews});
 }
 
 ///////////////////// STATE ///////////////////
@@ -21,6 +26,10 @@ class RestaurantStateDetailError extends RestaurantStateDetail {
 class RestaurantStateDetailSuccess extends RestaurantStateDetail {
   final RestaurantDetail data;
   RestaurantStateDetailSuccess({required this.data});
+}
+class RestaurantStateDetailReview extends RestaurantStateDetail {
+  final List<CustomerReviews> reviews;
+  RestaurantStateDetailReview({required this.reviews});
 }
 
 ///////////////////// BLoC /////////////////////
@@ -41,6 +50,10 @@ class RestaurantDetailBloc extends Bloc<RestaurantEvent, RestaurantStateDetail> 
       } on Exception catch (e) {
         emit(RestaurantStateDetailError(msg: e.toString()));
       }
+    });
+
+    on<RestaurantEventDetailAddReview> ((event, emit) async {
+      emit(RestaurantStateDetailReview(reviews: event.reviews));
     });
 
   }
