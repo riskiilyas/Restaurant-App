@@ -17,6 +17,26 @@ class Restaurants {
     rating = json['rating'];
   }
 
+  Map<String, dynamic> toMap() {
+    return {
+      'id': id,
+      'name': name,
+      'description': description,
+      'pictureId': pictureId,
+      'city': city,
+      'rating': rating,
+    };
+  }
+
+  Restaurants.fromMap(Map<String, dynamic> map) {
+    id = map['id'];
+    name = map['name'];
+    description = map['description'];
+    pictureId = map['pictureId'];
+    city = map['city'];
+    rating = map['rating'];
+  }
+
   late String id;
   late String name;
   late String description;
