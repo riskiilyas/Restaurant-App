@@ -3,6 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_native_splash/flutter_native_splash.dart';
 import 'package:get/get.dart';
 import 'package:restaurant_app/bloc/bloc_detail.dart';
+import 'package:restaurant_app/bloc/bloc_favorite.dart';
 import 'package:restaurant_app/bloc/bloc_list.dart';
 import 'package:restaurant_app/bloc/bloc_search.dart';
 import 'package:restaurant_app/screen/home_screen.dart';
@@ -29,6 +30,7 @@ class MyApp extends StatelessWidget {
               BlocProvider(create: (_) => RestaurantListBloc()),
               BlocProvider(create: (_) => RestaurantDetailBloc()),
               BlocProvider(create: (_) => RestaurantSearchBloc()),
+              BlocProvider(create: (_) => FavoriteBloc())
             ],
             child: const HomeScreen(title: 'Restaurant App'),
           )),

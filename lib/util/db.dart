@@ -5,6 +5,9 @@ import '../model/restaurants.dart';
 
 class DatabaseHelper {
   static late Database _database;
+  static final DatabaseHelper instance = DatabaseHelper._init();
+
+  DatabaseHelper._init();
 
   Future<Database> get database async {
     _database = await _initializeDb();
@@ -20,8 +23,12 @@ class DatabaseHelper {
       onCreate: (db, version) async {
         await db.execute(
           '''CREATE TABLE $_tableName (
-               id INTEGER PRIMARY KEY,
-               title TEXT, description TEXT
+               id TEXT PRIMARY KEY,
+               name TEXT, 
+               description TEXT,
+               pictureId TEXT,
+               city TEXT,
+               rating NUMBER
              )''',
         );
       },

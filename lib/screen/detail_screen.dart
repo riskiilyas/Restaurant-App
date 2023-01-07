@@ -3,20 +3,26 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:restaurant_app/bloc/bloc_detail.dart';
+import 'package:restaurant_app/bloc/bloc_favorite.dart';
 import 'package:restaurant_app/util/network.dart';
 import 'package:restaurant_app/widget/menu_card.dart';
 import 'package:restaurant_app/widget/review_item.dart';
 
+import '../model/restaurants.dart';
 import '../widget/toast_layout.dart';
 
 class DetailScreen extends StatelessWidget {
-  const DetailScreen({Key? key, required this.id}) : super(key: key);
+  DetailScreen({Key? key, required this.id})
+      : super(key: key);
 
   final String id;
+  var isFav = false;
 
   @override
   Widget build(BuildContext context) {
     var bloc = BlocProvider.of<RestaurantDetailBloc>(context);
+    var favbloc = BlocProvider.of<FavoriteBloc>(context);
+    favbloc.add(FavoriteEventGet());
     bloc.add(RestaurantEventDetail(id: id));
     return Scaffold(
       floatingActionButton: FloatingActionButton(
@@ -26,7 +32,8 @@ class DetailScreen extends StatelessWidget {
 
           showDialog(
               context: context,
-              builder: (context) => AlertDialog(
+              builder: (context) =>
+                  AlertDialog(
                     title: const Text('Write Your Review'),
                     content: SingleChildScrollView(
                       child: Column(
@@ -42,7 +49,7 @@ class DetailScreen extends StatelessWidget {
                                       color: Colors.deepOrange, width: 2)),
                               focusedBorder: UnderlineInputBorder(
                                   borderSide:
-                                      BorderSide(color: Colors.deepOrange)),
+                                  BorderSide(color: Colors.deepOrange)),
                             ),
                           ),
                           const SizedBox(
@@ -60,7 +67,7 @@ class DetailScreen extends StatelessWidget {
                                       color: Colors.deepOrange, width: 2)),
                               focusedBorder: UnderlineInputBorder(
                                   borderSide:
-                                      BorderSide(color: Colors.deepOrange)),
+                                  BorderSide(color: Colors.deepOrange)),
                             ),
                           )
                         ],
@@ -81,7 +88,7 @@ class DetailScreen extends StatelessWidget {
                             var network = Network();
                             network
                                 .postReview(id, nameController.text,
-                                    reviewController.text)
+                                reviewController.text)
                                 .then((result) {
                               fToast.showToast(
                                 child: const ToastLayout(
@@ -132,6 +139,37 @@ class DetailScreen extends StatelessWidget {
                         backgroundColor: Colors.deepOrange,
                         floating: true,
                         snap: true,
+                        actions: [
+                          IconButton(onPressed: () {
+                            if (bloc.state is RestaurantStateDetailSuccess) {
+                              var data = (bloc.state as RestaurantStateDetailSuccess).data.restaurant;
+                              if(isFav) {
+                                favbloc.add(FavoriteEventDelete(id: data.id));
+                                isFav = false;
+                              } else {
+                                favbloc.add(FavoriteEventInsert(restaurants: Restaurants(id: data.id, name: data.name, description: data.description, pictureId: data.pictureId, city: data.city, rating: data.rating)));
+                              }
+                            }
+
+                          }, icon: BlocBuilder(
+                            bloc: favbloc,
+                            builder: (ctx, stateFav) {
+                              if (stateFav is FavoriteStateRestaurants) {
+                                var data = (bloc.state as RestaurantStateDetailSuccess).data.restaurant;
+                                for(var res in stateFav.data) {
+                                  if(res.id == data.id) {
+                                    isFav = true;
+                                    break;
+                                  }
+                                }
+                                if(isFav) return const Icon(Icons.favorite);
+                              }
+                              return const Icon(Icons.favorite_border);
+                            },
+                          )
+                            ,
+                          )
+                        ],
                       )
                     ];
                   },
@@ -144,7 +182,8 @@ class DetailScreen extends StatelessWidget {
                           child: Hero(
                               tag: restaurants.pictureId,
                               child: Image.network(
-                                  "https://restaurant-api.dicoding.dev/images/large/${restaurants.pictureId}")),
+                                  "https://restaurant-api.dicoding.dev/images/large/${restaurants
+                                      .pictureId}")),
                         ),
                         Padding(
                           padding: const EdgeInsets.all(12),
@@ -250,7 +289,7 @@ class DetailScreen extends StatelessWidget {
                                   bloc: bloc,
                                   builder: (context, stateReview) {
                                     var reviews = (stateReview
-                                            is RestaurantStateDetailReview)
+                                    is RestaurantStateDetailReview)
                                         ? stateReview.reviews
                                         : restaurants.customerReviews;
                                     return SizedBox(
@@ -262,7 +301,7 @@ class DetailScreen extends StatelessWidget {
                                         itemCount: reviews.length,
                                         shrinkWrap: true,
                                         physics:
-                                            const NeverScrollableScrollPhysics(),
+                                        const NeverScrollableScrollPhysics(),
                                       ),
                                     );
                                   })

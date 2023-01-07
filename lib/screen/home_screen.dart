@@ -5,6 +5,9 @@ import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:get/get.dart';
 import 'package:restaurant_app/bloc/bloc_list.dart';
 import 'package:restaurant_app/bloc/bloc_search.dart';
+import 'package:restaurant_app/bloc/bloc_favorite.dart';
+import 'package:restaurant_app/screen/favorite_screen.dart';
+import 'package:restaurant_app/screen/setting_screen.dart';
 import 'package:restaurant_app/widget/restaurant_item.dart';
 import 'package:restaurant_app/widget/restaurant_search_delegate.dart';
 
@@ -37,7 +40,7 @@ class _MyHomePageState extends State<HomeScreen> {
             BlocBuilder<RestaurantListBloc, RestaurantStateList>(
                 builder: (context, state) {
           return NestedScrollView(
-            headerSliverBuilder: (context, innerBoxIsScrolled) {
+            headerSliverBuilder: (context2, innerBoxIsScrolled) {
               return [
                 SliverAppBar(
                   actions: [
@@ -49,15 +52,27 @@ class _MyHomePageState extends State<HomeScreen> {
                                 bloc: BlocProvider.of<RestaurantSearchBloc>(
                                     context),
                                 onSearch: (q) {
-                                  Get.to(() => BlocProvider.value(
-                                      value:
-                                          BlocProvider.of<RestaurantDetailBloc>(
-                                              context),
+                                  Get.to(() => MultiBlocProvider(
+                                      providers: [
+                                        BlocProvider.value(value: BlocProvider.of<RestaurantDetailBloc>(context)),
+                                        BlocProvider.value(value: BlocProvider.of<FavoriteBloc>(context))
+                                      ],
                                       child: DetailScreen(id: q)));
                                 }),
                           );
                         },
-                        icon: const Icon(Icons.search))
+                        icon: const Icon(Icons.search)),
+                    IconButton(onPressed: () {
+                      Get.to(() => MultiBlocProvider(
+                          providers: [
+                            BlocProvider.value(value: BlocProvider.of<RestaurantDetailBloc>(context)),
+                            BlocProvider.value(value: BlocProvider.of<FavoriteBloc>(context))
+                          ],
+                          child: FavoriteScreen()));
+                    }, icon: const Icon(Icons.favorite)),
+                    IconButton(onPressed: () {
+                      Get.to(() => const SettingScreen());
+                    }, icon: const Icon(Icons.settings)),
                   ],
                   flexibleSpace: FlexibleSpaceBar(
                     title: const Text("Restaurant App"),
@@ -85,8 +100,11 @@ class _MyHomePageState extends State<HomeScreen> {
               .map((e) => RestaurantItem(
                     restaurants: e,
                     onClicked: (id) {
-                      Get.to(() => BlocProvider.value(
-                          value: BlocProvider.of<RestaurantDetailBloc>(context),
+                      Get.to(() => MultiBlocProvider(
+                          providers: [
+                            BlocProvider.value(value: BlocProvider.of<RestaurantDetailBloc>(context)),
+                            BlocProvider.value(value: BlocProvider.of<FavoriteBloc>(context))
+                          ],
                           child: DetailScreen(id: id)));
                     },
                   ))
