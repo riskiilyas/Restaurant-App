@@ -101,10 +101,10 @@ class _MyHomePageState extends State<HomeScreen> {
           mainAxisAlignment: MainAxisAlignment.center,
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
-            Text(
-              'Error: ${state.msg}',
+            const Text(
+              'Failed to Load Data',
               textAlign: TextAlign.center,
-              style: const TextStyle(fontSize: 24),
+              style: TextStyle(fontSize: 24),
             ),
             const SizedBox(
               height: 20,

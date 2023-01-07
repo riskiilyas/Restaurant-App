@@ -28,41 +28,43 @@ class DetailScreen extends StatelessWidget {
               context: context,
               builder: (context) => AlertDialog(
                     title: const Text('Write Your Review'),
-                    content: Column(
-                      mainAxisSize: MainAxisSize.min,
-                      children: [
-                        TextField(
-                          controller: nameController,
-                          cursorColor: Colors.deepOrange,
-                          decoration: const InputDecoration(
-                            hintText: 'Enter Your Name',
-                            enabledBorder: OutlineInputBorder(
-                                borderSide: BorderSide(
-                                    color: Colors.deepOrange, width: 2)),
-                            focusedBorder: UnderlineInputBorder(
-                                borderSide:
-                                    BorderSide(color: Colors.deepOrange)),
+                    content: SingleChildScrollView(
+                      child: Column(
+                        mainAxisSize: MainAxisSize.min,
+                        children: [
+                          TextField(
+                            controller: nameController,
+                            cursorColor: Colors.deepOrange,
+                            decoration: const InputDecoration(
+                              hintText: 'Enter Your Name',
+                              enabledBorder: OutlineInputBorder(
+                                  borderSide: BorderSide(
+                                      color: Colors.deepOrange, width: 2)),
+                              focusedBorder: UnderlineInputBorder(
+                                  borderSide:
+                                      BorderSide(color: Colors.deepOrange)),
+                            ),
                           ),
-                        ),
-                        const SizedBox(
-                          height: 12,
-                        ),
-                        TextField(
-                          controller: reviewController,
-                          cursorColor: Colors.deepOrange,
-                          maxLines: 6,
-                          keyboardType: TextInputType.multiline,
-                          decoration: const InputDecoration(
-                            hintText: 'Enter Your Review',
-                            enabledBorder: OutlineInputBorder(
-                                borderSide: BorderSide(
-                                    color: Colors.deepOrange, width: 2)),
-                            focusedBorder: UnderlineInputBorder(
-                                borderSide:
-                                    BorderSide(color: Colors.deepOrange)),
+                          const SizedBox(
+                            height: 12,
                           ),
-                        )
-                      ],
+                          TextField(
+                            controller: reviewController,
+                            cursorColor: Colors.deepOrange,
+                            maxLines: 6,
+                            keyboardType: TextInputType.multiline,
+                            decoration: const InputDecoration(
+                              hintText: 'Enter Your Review',
+                              enabledBorder: OutlineInputBorder(
+                                  borderSide: BorderSide(
+                                      color: Colors.deepOrange, width: 2)),
+                              focusedBorder: UnderlineInputBorder(
+                                  borderSide:
+                                      BorderSide(color: Colors.deepOrange)),
+                            ),
+                          )
+                        ],
+                      ),
                     ),
                     actions: [
                       TextButton(
@@ -279,10 +281,10 @@ class DetailScreen extends StatelessWidget {
                     mainAxisAlignment: MainAxisAlignment.center,
                     crossAxisAlignment: CrossAxisAlignment.center,
                     children: [
-                      Text(
-                        'Error: ${state.msg}',
+                      const Text(
+                        'Failed to Load Data!',
                         textAlign: TextAlign.center,
-                        style: const TextStyle(fontSize: 24),
+                        style: TextStyle(fontSize: 24),
                       ),
                       const SizedBox(
                         height: 20,

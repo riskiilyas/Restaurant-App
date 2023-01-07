@@ -54,8 +54,8 @@ class RestaurantSearchDelegate extends SearchDelegate {
                 separatorBuilder: (ctx, id) => const SizedBox(),
                 itemCount: list.length);
           } else if (state is RestaurantStateSearchError) {
-            return Center(
-                child: Text(state.msg == null ? "" : "Error: ${state.msg}"));
+            return const Center(
+                child: Text("Failed to Load Data!"));
           } else if (state is RestaurantStateSearchLoading) {
             return const Center(
               child: SpinKitWave(
