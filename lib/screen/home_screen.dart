@@ -6,6 +6,7 @@ import 'package:get/get.dart';
 import 'package:restaurant_app/bloc/bloc_list.dart';
 import 'package:restaurant_app/bloc/bloc_search.dart';
 import 'package:restaurant_app/bloc/bloc_favorite.dart';
+import 'package:restaurant_app/bloc/bloc_settings.dart';
 import 'package:restaurant_app/screen/favorite_screen.dart';
 import 'package:restaurant_app/screen/setting_screen.dart';
 import 'package:restaurant_app/widget/restaurant_item.dart';
@@ -71,7 +72,10 @@ class _MyHomePageState extends State<HomeScreen> {
                           child: FavoriteScreen()));
                     }, icon: const Icon(Icons.favorite)),
                     IconButton(onPressed: () {
-                      Get.to(() => const SettingScreen());
+                      Get.to(() => BlocProvider.value(
+                          value: BlocProvider.of<SettingBloc>(context),
+                          child: const SettingScreen())
+                      );
                     }, icon: const Icon(Icons.settings)),
                   ],
                   flexibleSpace: FlexibleSpaceBar(

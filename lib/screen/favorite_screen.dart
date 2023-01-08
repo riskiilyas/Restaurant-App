@@ -32,6 +32,7 @@ class FavoriteScreen extends StatelessWidget {
                 headerSliverBuilder: (context, innerBoxIsScrolled) {
                   return [
                     SliverAppBar(
+                      backgroundColor: Colors.deepOrange,
                       actions: [
                         IconButton(
                             onPressed: () {

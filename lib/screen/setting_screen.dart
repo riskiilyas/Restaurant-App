@@ -10,6 +10,10 @@ class SettingScreen extends StatelessWidget {
     var bloc = BlocProvider.of<SettingBloc>(context);
     bloc.add(SettingsEvent());
     return Scaffold(
+      appBar: AppBar(
+        backgroundColor: Colors.deepOrange,
+        title: const Text('Settings'),
+      ),
       body: SafeArea(
         child: Padding(
           padding: const EdgeInsets.all(12),
@@ -18,8 +22,8 @@ class SettingScreen extends StatelessWidget {
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  Text('Allow Notification'),
-                  BlocBuilder(builder: (context, state) {
+                  const Text('Allow Notification', style: TextStyle(fontSize: 20),),
+                  BlocBuilder(bloc: bloc,builder: (context, state) {
                     return Switch(value: (state is SettingStateSwitch) ? state.isOn : false, onChanged: (isOn) {
                       bloc.add(SettingEventSwitch(isOn: isOn));
                     });
