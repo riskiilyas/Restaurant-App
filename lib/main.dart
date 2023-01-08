@@ -6,6 +6,7 @@ import 'package:restaurant_app/bloc/bloc_detail.dart';
 import 'package:restaurant_app/bloc/bloc_favorite.dart';
 import 'package:restaurant_app/bloc/bloc_list.dart';
 import 'package:restaurant_app/bloc/bloc_search.dart';
+import 'package:restaurant_app/bloc/bloc_settings.dart';
 import 'package:restaurant_app/screen/home_screen.dart';
 
 void main() {
@@ -30,7 +31,8 @@ class MyApp extends StatelessWidget {
               BlocProvider(create: (_) => RestaurantListBloc()),
               BlocProvider(create: (_) => RestaurantDetailBloc()),
               BlocProvider(create: (_) => RestaurantSearchBloc()),
-              BlocProvider(create: (_) => FavoriteBloc())
+              BlocProvider(create: (_) => FavoriteBloc()),
+              BlocProvider(create: (_) => SettingBloc())
             ],
             child: const HomeScreen(title: 'Restaurant App'),
           )),
