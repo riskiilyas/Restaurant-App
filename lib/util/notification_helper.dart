@@ -20,7 +20,7 @@ class NotificationHelper {
   Future<void> initNotifications(
       FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin) async {
     var initializationSettingsAndroid =
-    const AndroidInitializationSettings('app_icon');
+        const AndroidInitializationSettings('app_icon');
 
     var initializationSettingsIOS = const DarwinInitializationSettings(
       requestAlertPermission: false,
@@ -33,9 +33,9 @@ class NotificationHelper {
 
     await flutterLocalNotificationsPlugin.initialize(initializationSettings,
         onDidReceiveNotificationResponse: (NotificationResponse details) async {
-          final payload = details.payload;
-          selectNotificationSubject.add(payload ?? 'empty payload');
-        });
+      final payload = details.payload;
+      selectNotificationSubject.add(payload ?? 'empty payload');
+    });
   }
 
   Future<void> showNotification(
@@ -55,7 +55,8 @@ class NotificationHelper {
 
     var iOSPlatformChannelSpecifics = const DarwinNotificationDetails();
     var platformChannelSpecifics = NotificationDetails(
-        android: androidPlatformChannelSpecifics, iOS: iOSPlatformChannelSpecifics);
+        android: androidPlatformChannelSpecifics,
+        iOS: iOSPlatformChannelSpecifics);
 
     var titleNotification = "<b>Restaurant For You!</b>";
     var title = restaurants.name;
@@ -67,7 +68,7 @@ class NotificationHelper {
 
   void configureSelectNotificationSubject(String route) {
     selectNotificationSubject.stream.listen(
-          (String payload) async {
+      (String payload) async {
         var data = Restaurants.fromJson(json.decode(payload));
         Navigation.intentWithData(route, data);
       },

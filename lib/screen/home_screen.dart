@@ -53,30 +53,39 @@ class _MyHomePageState extends State<HomeScreen> {
                                 bloc: BlocProvider.of<RestaurantSearchBloc>(
                                     context),
                                 onSearch: (q) {
-                                  Get.to(() => MultiBlocProvider(
-                                      providers: [
-                                        BlocProvider.value(value: BlocProvider.of<RestaurantDetailBloc>(context)),
-                                        BlocProvider.value(value: BlocProvider.of<FavoriteBloc>(context))
-                                      ],
-                                      child: DetailScreen(id: q)));
+                                  Get.to(() => MultiBlocProvider(providers: [
+                                        BlocProvider.value(
+                                            value: BlocProvider.of<
+                                                RestaurantDetailBloc>(context)),
+                                        BlocProvider.value(
+                                            value:
+                                                BlocProvider.of<FavoriteBloc>(
+                                                    context))
+                                      ], child: DetailScreen(id: q)));
                                 }),
                           );
                         },
                         icon: const Icon(Icons.search)),
-                    IconButton(onPressed: () {
-                      Get.to(() => MultiBlocProvider(
-                          providers: [
-                            BlocProvider.value(value: BlocProvider.of<RestaurantDetailBloc>(context)),
-                            BlocProvider.value(value: BlocProvider.of<FavoriteBloc>(context))
-                          ],
-                          child: FavoriteScreen()));
-                    }, icon: const Icon(Icons.favorite)),
-                    IconButton(onPressed: () {
-                      Get.to(() => BlocProvider.value(
-                          value: BlocProvider.of<SettingBloc>(context),
-                          child: const SettingScreen())
-                      );
-                    }, icon: const Icon(Icons.settings)),
+                    IconButton(
+                        onPressed: () {
+                          Get.to(() => MultiBlocProvider(providers: [
+                                BlocProvider.value(
+                                    value:
+                                        BlocProvider.of<RestaurantDetailBloc>(
+                                            context)),
+                                BlocProvider.value(
+                                    value:
+                                        BlocProvider.of<FavoriteBloc>(context))
+                              ], child: const FavoriteScreen()));
+                        },
+                        icon: const Icon(Icons.favorite)),
+                    IconButton(
+                        onPressed: () {
+                          Get.to(() => BlocProvider.value(
+                              value: BlocProvider.of<SettingBloc>(context),
+                              child: const SettingScreen()));
+                        },
+                        icon: const Icon(Icons.settings)),
                   ],
                   flexibleSpace: FlexibleSpaceBar(
                     title: const Text("Restaurant App"),
@@ -104,12 +113,13 @@ class _MyHomePageState extends State<HomeScreen> {
               .map((e) => RestaurantItem(
                     restaurants: e,
                     onClicked: (id) {
-                      Get.to(() => MultiBlocProvider(
-                          providers: [
-                            BlocProvider.value(value: BlocProvider.of<RestaurantDetailBloc>(context)),
-                            BlocProvider.value(value: BlocProvider.of<FavoriteBloc>(context))
-                          ],
-                          child: DetailScreen(id: id)));
+                      Get.to(() => MultiBlocProvider(providers: [
+                            BlocProvider.value(
+                                value: BlocProvider.of<RestaurantDetailBloc>(
+                                    context)),
+                            BlocProvider.value(
+                                value: BlocProvider.of<FavoriteBloc>(context))
+                          ], child: DetailScreen(id: id)));
                     },
                   ))
               .toList()[i],

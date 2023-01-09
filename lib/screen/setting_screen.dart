@@ -22,12 +22,21 @@ class SettingScreen extends StatelessWidget {
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  const Text('Allow Notification', style: TextStyle(fontSize: 20),),
-                  BlocBuilder(bloc: bloc,builder: (context, state) {
-                    return Switch(value: (state is SettingStateSwitch) ? state.isOn : false, onChanged: (isOn) {
-                      bloc.add(SettingEventSwitch(isOn: isOn));
-                    });
-                  })
+                  const Text(
+                    'Allow Notification',
+                    style: TextStyle(fontSize: 20),
+                  ),
+                  BlocBuilder(
+                      bloc: bloc,
+                      builder: (context, state) {
+                        return Switch(
+                            value: (state is SettingStateSwitch)
+                                ? state.isOn
+                                : false,
+                            onChanged: (isOn) {
+                              bloc.add(SettingEventSwitch(isOn: isOn));
+                            });
+                      })
                 ],
               )
             ],

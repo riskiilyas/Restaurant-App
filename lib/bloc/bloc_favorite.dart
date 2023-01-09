@@ -9,12 +9,16 @@ import '../util/db.dart';
 class FavoriteEvent {}
 
 class FavoriteEventGet extends FavoriteEvent {}
+
 class FavoriteEventDelete extends FavoriteEvent {
   final String id;
+
   FavoriteEventDelete({required this.id});
 }
+
 class FavoriteEventInsert extends FavoriteEvent {
   final Restaurants restaurants;
+
   FavoriteEventInsert({required this.restaurants});
 }
 
@@ -27,12 +31,12 @@ class FavoriteStateError extends FavoriteState {}
 
 class FavoriteStateRestaurants extends FavoriteState {
   final List<Restaurants> data;
+
   FavoriteStateRestaurants({required this.data});
 }
 
 ///////////////////// BLoC /////////////////////
 class FavoriteBloc extends Bloc<FavoriteEvent, FavoriteState> {
-
   FavoriteBloc() : super(FavoriteState()) {
     on<FavoriteEventGet>((event, emit) async {
       emit(FavoriteStateLoading());

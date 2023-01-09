@@ -13,20 +13,20 @@ import 'package:restaurant_app/bloc/bloc_search.dart';
 import 'package:restaurant_app/bloc/bloc_settings.dart';
 import 'package:restaurant_app/screen/home_screen.dart';
 import 'package:restaurant_app/util/background_service.dart';
-import 'package:restaurant_app/util/date_time_helper.dart';
 import 'package:restaurant_app/util/notification_helper.dart';
+
 final FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin =
-FlutterLocalNotificationsPlugin();
+    FlutterLocalNotificationsPlugin();
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
-  final NotificationHelper _notificationHelper = NotificationHelper();
-  final BackgroundService _service = BackgroundService();
-  _service.initializeIsolate();
+  final NotificationHelper notificationHelper = NotificationHelper();
+  final BackgroundService service = BackgroundService();
+  service.initializeIsolate();
   if (Platform.isAndroid) {
     await AndroidAlarmManager.initialize();
   }
-  await _notificationHelper.initNotifications(flutterLocalNotificationsPlugin);
+  await notificationHelper.initNotifications(flutterLocalNotificationsPlugin);
   WidgetsBinding widgetsBinding = WidgetsFlutterBinding.ensureInitialized();
   FlutterNativeSplash.preserve(widgetsBinding: widgetsBinding);
   runApp(const MyApp());

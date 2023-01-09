@@ -12,8 +12,7 @@ import '../model/restaurants.dart';
 import '../widget/toast_layout.dart';
 
 class DetailScreen extends StatefulWidget {
-  DetailScreen({Key? key, required this.id})
-      : super(key: key);
+  const DetailScreen({Key? key, required this.id}) : super(key: key);
 
   final String id;
 
@@ -47,8 +46,7 @@ class _DetailScreenState extends State<DetailScreen> {
 
           showDialog(
               context: context,
-              builder: (context) =>
-                  AlertDialog(
+              builder: (context) => AlertDialog(
                     title: const Text('Write Your Review'),
                     content: SingleChildScrollView(
                       child: Column(
@@ -64,7 +62,7 @@ class _DetailScreenState extends State<DetailScreen> {
                                       color: Colors.deepOrange, width: 2)),
                               focusedBorder: UnderlineInputBorder(
                                   borderSide:
-                                  BorderSide(color: Colors.deepOrange)),
+                                      BorderSide(color: Colors.deepOrange)),
                             ),
                           ),
                           const SizedBox(
@@ -82,7 +80,7 @@ class _DetailScreenState extends State<DetailScreen> {
                                       color: Colors.deepOrange, width: 2)),
                               focusedBorder: UnderlineInputBorder(
                                   borderSide:
-                                  BorderSide(color: Colors.deepOrange)),
+                                      BorderSide(color: Colors.deepOrange)),
                             ),
                           )
                         ],
@@ -103,7 +101,7 @@ class _DetailScreenState extends State<DetailScreen> {
                             var network = Network();
                             network
                                 .postReview(widget.id, nameController.text,
-                                reviewController.text)
+                                    reviewController.text)
                                 .then((result) {
                               fToast.showToast(
                                 child: const ToastLayout(
@@ -155,34 +153,47 @@ class _DetailScreenState extends State<DetailScreen> {
                         floating: true,
                         snap: true,
                         actions: [
-                          IconButton(onPressed: () {
-                            if (bloc.state is RestaurantStateDetailSuccess) {
-                              var data = (bloc.state as RestaurantStateDetailSuccess).data.restaurant;
-                              if(isFav) {
-                                favbloc.add(FavoriteEventDelete(id: data.id));
-                                isFav = false;
-                              } else {
-                                favbloc.add(FavoriteEventInsert(restaurants: Restaurants(id: data.id, name: data.name, description: data.description, pictureId: data.pictureId, city: data.city, rating: data.rating)));
-                              }
-                            }
-
-                          }, icon: BlocBuilder(
-                            bloc: favbloc,
-                            builder: (ctx, stateFav) {
-                              if (stateFav is FavoriteStateRestaurants) {
-                                var data = (bloc.state as RestaurantStateDetailSuccess).data.restaurant;
-                                for(var res in stateFav.data) {
-                                  if(res.id == data.id) {
-                                    isFav = true;
-                                    break;
-                                  }
+                          IconButton(
+                            onPressed: () {
+                              if (bloc.state is RestaurantStateDetailSuccess) {
+                                var data =
+                                    (bloc.state as RestaurantStateDetailSuccess)
+                                        .data
+                                        .restaurant;
+                                if (isFav) {
+                                  favbloc.add(FavoriteEventDelete(id: data.id));
+                                  isFav = false;
+                                } else {
+                                  favbloc.add(FavoriteEventInsert(
+                                      restaurants: Restaurants(
+                                          id: data.id,
+                                          name: data.name,
+                                          description: data.description,
+                                          pictureId: data.pictureId,
+                                          city: data.city,
+                                          rating: data.rating)));
                                 }
-                                if(isFav) return const Icon(Icons.favorite);
                               }
-                              return const Icon(Icons.favorite_border);
                             },
-                          )
-                            ,
+                            icon: BlocBuilder(
+                              bloc: favbloc,
+                              builder: (ctx, stateFav) {
+                                if (stateFav is FavoriteStateRestaurants) {
+                                  var data = (bloc.state
+                                          as RestaurantStateDetailSuccess)
+                                      .data
+                                      .restaurant;
+                                  for (var res in stateFav.data) {
+                                    if (res.id == data.id) {
+                                      isFav = true;
+                                      break;
+                                    }
+                                  }
+                                  if (isFav) return const Icon(Icons.favorite);
+                                }
+                                return const Icon(Icons.favorite_border);
+                              },
+                            ),
                           )
                         ],
                       )
@@ -197,8 +208,7 @@ class _DetailScreenState extends State<DetailScreen> {
                           child: Hero(
                               tag: restaurants.pictureId,
                               child: Image.network(
-                                  "https://restaurant-api.dicoding.dev/images/large/${restaurants
-                                      .pictureId}")),
+                                  "https://restaurant-api.dicoding.dev/images/large/${restaurants.pictureId}")),
                         ),
                         Padding(
                           padding: const EdgeInsets.all(12),
@@ -304,7 +314,7 @@ class _DetailScreenState extends State<DetailScreen> {
                                   bloc: bloc,
                                   builder: (context, stateReview) {
                                     var reviews = (stateReview
-                                    is RestaurantStateDetailReview)
+                                            is RestaurantStateDetailReview)
                                         ? stateReview.reviews
                                         : restaurants.customerReviews;
                                     return SizedBox(
@@ -316,7 +326,7 @@ class _DetailScreenState extends State<DetailScreen> {
                                         itemCount: reviews.length,
                                         shrinkWrap: true,
                                         physics:
-                                        const NeverScrollableScrollPhysics(),
+                                            const NeverScrollableScrollPhysics(),
                                       ),
                                     );
                                   })
@@ -344,7 +354,8 @@ class _DetailScreenState extends State<DetailScreen> {
                         height: 20,
                       ),
                       InkWell(
-                        onTap: () => bloc.add(RestaurantEventDetail(id: widget.id)),
+                        onTap: () =>
+                            bloc.add(RestaurantEventDetail(id: widget.id)),
                         child: Container(
                           decoration: BoxDecoration(
                             borderRadius: BorderRadius.circular(10),

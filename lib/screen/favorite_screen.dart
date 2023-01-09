@@ -22,7 +22,8 @@ class FavoriteScreen extends StatelessWidget {
           elevation: 0,
           toolbarHeight: 0,
         ),
-        body: SafeArea(child: BlocBuilder(
+        body: SafeArea(
+            child: BlocBuilder(
           bloc: bloc,
           builder: (context1, state) {
             if (state is FavoriteStateRestaurants) {
@@ -37,11 +38,10 @@ class FavoriteScreen extends StatelessWidget {
                               showSearch(
                                 context: context,
                                 delegate: RestaurantSearchDelegate(
-                                  onSearch: (q) {
-                                   toDetail(context, q);
-                                  },
-                                  restaurants: state.data
-                                ),
+                                    onSearch: (q) {
+                                      toDetail(context, q);
+                                    },
+                                    restaurants: state.data),
                               );
                             },
                             icon: const Icon(Icons.search))
@@ -137,11 +137,10 @@ class FavoriteScreen extends StatelessWidget {
   }
 
   void toDetail(BuildContext context, String id) {
-    Get.to(() => MultiBlocProvider(
-        providers: [
-          BlocProvider.value(value: BlocProvider.of<RestaurantDetailBloc>(context)),
+    Get.to(() => MultiBlocProvider(providers: [
+          BlocProvider.value(
+              value: BlocProvider.of<RestaurantDetailBloc>(context)),
           BlocProvider.value(value: BlocProvider.of<FavoriteBloc>(context)),
-        ],
-        child: DetailScreen(id: id)));
+        ], child: DetailScreen(id: id)));
   }
 }
