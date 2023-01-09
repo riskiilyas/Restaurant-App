@@ -13,6 +13,7 @@ import 'package:restaurant_app/bloc/bloc_search.dart';
 import 'package:restaurant_app/bloc/bloc_settings.dart';
 import 'package:restaurant_app/screen/home_screen.dart';
 import 'package:restaurant_app/util/background_service.dart';
+import 'package:restaurant_app/util/date_time_helper.dart';
 import 'package:restaurant_app/util/notification_helper.dart';
 final FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin =
 FlutterLocalNotificationsPlugin();
@@ -28,6 +29,14 @@ Future<void> main() async {
   await _notificationHelper.initNotifications(flutterLocalNotificationsPlugin);
   WidgetsBinding widgetsBinding = WidgetsFlutterBinding.ensureInitialized();
   FlutterNativeSplash.preserve(widgetsBinding: widgetsBinding);
+  AndroidAlarmManager.periodic(
+    const Duration(hours: 24),
+    1,
+    BackgroundService.callback,
+    startAt: DateTimeHelper.format(),
+    exact: true,
+    wakeup: true,
+  );
   runApp(const MyApp());
 }
 

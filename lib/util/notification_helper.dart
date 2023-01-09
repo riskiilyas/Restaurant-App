@@ -1,6 +1,7 @@
 import 'dart:convert';
 
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
+import 'package:restaurant_app/model/restaurants.dart';
 import 'package:rxdart/rxdart.dart';
 
 import 'navigation.dart';
@@ -34,7 +35,7 @@ class NotificationHelper {
         onDidReceiveNotificationResponse: (NotificationResponse details) async {
           final payload = details.payload;
           if (payload != null) {
-            print('notification payload: ' + payload);
+            print('notification payload: $payload');
           }
           selectNotificationSubject.add(payload ?? 'empty payload');
         });
@@ -42,10 +43,10 @@ class NotificationHelper {
 
   Future<void> showNotification(
       FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin,
-      ArticlesResult articles) async {
+      Restaurants restaurants) async {
     var channelId = "1";
     var channelName = "channel_01";
-    var channelDescription = "dicoding news channel";
+    var channelDescription = "Restaurant App Channel";
 
     var androidPlatformChannelSpecifics = AndroidNotificationDetails(
         channelId, channelName,
@@ -59,20 +60,19 @@ class NotificationHelper {
     var platformChannelSpecifics = NotificationDetails(
         android: androidPlatformChannelSpecifics, iOS: iOSPlatformChannelSpecifics);
 
-    var titleNotification = "<b>Headline News</b>";
-    var titleNews = articles.articles[0].title;
+    var titleNotification = "<b>Restaurant For You!</b>";
+    var title = restaurants.name;
 
     await flutterLocalNotificationsPlugin.show(
-        0, titleNotification, titleNews, platformChannelSpecifics,
-        payload: json.encode(articles.toJson()));
+        0, titleNotification, title, platformChannelSpecifics,
+        payload: json.encode(restaurants.toJson()));
   }
 
   void configureSelectNotificationSubject(String route) {
     selectNotificationSubject.stream.listen(
           (String payload) async {
-        var data = ArticlesResult.fromJson(json.decode(payload));
-        var article = data.articles[0];
-        Navigation.intentWithData(route, article);
+        var data = Restaurants.fromJson(json.decode(payload));
+        Navigation.intentWithData(route, data);
       },
     );
   }
