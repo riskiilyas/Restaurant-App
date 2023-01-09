@@ -1,5 +1,3 @@
-import 'dart:io';
-
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
@@ -73,6 +71,7 @@ class FavoriteScreen extends StatelessWidget {
                                   },
                                   child: RestaurantItem(
                                     onClicked: (q) {
+                                      Get.back();
                                       toDetail(context, q);
                                     },
                                     restaurants: e,
@@ -82,14 +81,7 @@ class FavoriteScreen extends StatelessWidget {
                         separatorBuilder: (ctx, id) => const SizedBox(),
                         itemCount: state.data.length)),
               );
-            } else if (state is FavoriteStateLoading) {
-              return const Center(
-                child: SpinKitWave(
-                  color: Colors.deepOrange,
-                  size: 64,
-                ),
-              );
-            } else {
+            } else if (state is FavoriteStateError) {
               return SizedBox(
                 width: double.infinity,
                 height: double.infinity,
@@ -134,6 +126,12 @@ class FavoriteScreen extends StatelessWidget {
                 ),
               );
             }
+            return const Center(
+              child: SpinKitWave(
+                color: Colors.deepOrange,
+                size: 64,
+              ),
+            );
           },
         )));
   }

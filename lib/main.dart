@@ -29,14 +29,6 @@ Future<void> main() async {
   await _notificationHelper.initNotifications(flutterLocalNotificationsPlugin);
   WidgetsBinding widgetsBinding = WidgetsFlutterBinding.ensureInitialized();
   FlutterNativeSplash.preserve(widgetsBinding: widgetsBinding);
-  AndroidAlarmManager.periodic(
-    const Duration(hours: 24),
-    1,
-    BackgroundService.callback,
-    startAt: DateTimeHelper.format(),
-    exact: true,
-    wakeup: true,
-  );
   runApp(const MyApp());
 }
 

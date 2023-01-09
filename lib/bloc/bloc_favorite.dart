@@ -39,9 +39,8 @@ class FavoriteBloc extends Bloc<FavoriteEvent, FavoriteState> {
       try {
         final restaurants = await DatabaseHelper.instance.getRestaurants();
         emit(FavoriteStateRestaurants(data: restaurants));
-      } on Exception catch (e){
+      } on Exception {
         emit(FavoriteStateError());
-        print(e.toString());
       }
     });
 
@@ -63,6 +62,10 @@ class FavoriteBloc extends Bloc<FavoriteEvent, FavoriteState> {
       } on Exception {
         emit(FavoriteStateError());
       }
+    });
+
+    on<FavoriteEvent>((event, emit) async {
+      emit(FavoriteState());
     });
   }
 }

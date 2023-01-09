@@ -64,5 +64,9 @@ class RestaurantDetailBloc
     on<RestaurantEventDetailAddReview>((event, emit) async {
       emit(RestaurantStateDetailReview(reviews: event.reviews));
     });
+
+    on<RestaurantEvent>((event, emit) async {
+      emit(RestaurantStateDetailLoading());
+    });
   }
 }

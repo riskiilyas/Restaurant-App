@@ -41,7 +41,6 @@ class RestaurantListBloc extends Bloc<RestaurantEvent, RestaurantStateList> {
           emit(RestaurantStateListSuccess(data: model));
         }
       } on Exception catch (e) {
-        print('aaaakii');
         emit(RestaurantStateListError(msg: e.toString()));
       }
     });

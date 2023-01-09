@@ -1,6 +1,10 @@
 
+import 'package:android_alarm_manager_plus/android_alarm_manager_plus.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+
+import '../util/background_service.dart';
+import '../util/date_time_helper.dart';
 
 ///////////////////// EVENT /////////////////////
 class SettingsEvent {}
@@ -34,8 +38,20 @@ class SettingBloc extends Bloc<SettingsEvent, SettingState> {
 
       try {
         prefs.setBool('isOn', event.isOn);
+        if(event.isOn) {
+          await AndroidAlarmManager.periodic(
+            const Duration(hours: 24),
+            1,
+            BackgroundService.callback,
+            startAt: DateTimeHelper.format(),
+            exact: true,
+            wakeup: true,
+          );
+        } else {
+          await AndroidAlarmManager.cancel(1);
+        }
         emit(SettingStateSwitch(isOn: event.isOn));
-      } on Exception catch (e){
+      } on Exception {
         emit(SettingStateError());
       }
     });
@@ -44,10 +60,10 @@ class SettingBloc extends Bloc<SettingsEvent, SettingState> {
       var prefs = await getPref();
 
       try {
-        final bool? isOn = prefs.getBool('isFirstLaunch');
+        final bool? isOn = prefs.getBool('isOn');
         if(isOn==null) throw Exception();
         emit(SettingStateSwitch(isOn: isOn));
-      } on Exception catch (e){
+      } on Exception {
         emit(SettingStateError());
       }
     });

@@ -11,19 +11,34 @@ import 'package:restaurant_app/widget/review_item.dart';
 import '../model/restaurants.dart';
 import '../widget/toast_layout.dart';
 
-class DetailScreen extends StatelessWidget {
+class DetailScreen extends StatefulWidget {
   DetailScreen({Key? key, required this.id})
       : super(key: key);
 
   final String id;
+
+  @override
+  State<DetailScreen> createState() => _DetailScreenState();
+}
+
+class _DetailScreenState extends State<DetailScreen> {
   var isFav = false;
+  late FavoriteBloc favbloc;
+  late RestaurantDetailBloc bloc;
+
+  @override
+  void dispose() {
+    bloc.add(RestaurantEvent());
+    favbloc.add(FavoriteEvent());
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
-    var bloc = BlocProvider.of<RestaurantDetailBloc>(context);
-    var favbloc = BlocProvider.of<FavoriteBloc>(context);
+    bloc = BlocProvider.of<RestaurantDetailBloc>(context);
+    favbloc = BlocProvider.of<FavoriteBloc>(context);
     favbloc.add(FavoriteEventGet());
-    bloc.add(RestaurantEventDetail(id: id));
+    bloc.add(RestaurantEventDetail(id: widget.id));
     return Scaffold(
       floatingActionButton: FloatingActionButton(
         onPressed: () {
@@ -87,7 +102,7 @@ class DetailScreen extends StatelessWidget {
 
                             var network = Network();
                             network
-                                .postReview(id, nameController.text,
+                                .postReview(widget.id, nameController.text,
                                 reviewController.text)
                                 .then((result) {
                               fToast.showToast(
@@ -97,7 +112,7 @@ class DetailScreen extends StatelessWidget {
                                 toastDuration: const Duration(seconds: 2),
                               );
                               if (result.error) throw Exception();
-                              bloc.add(RestaurantEventDetail(id: id));
+                              bloc.add(RestaurantEventDetail(id: widget.id));
                             }).catchError((e) {
                               fToast.showToast(
                                 child: const ToastLayout(
@@ -329,7 +344,7 @@ class DetailScreen extends StatelessWidget {
                         height: 20,
                       ),
                       InkWell(
-                        onTap: () => bloc.add(RestaurantEventDetail(id: id)),
+                        onTap: () => bloc.add(RestaurantEventDetail(id: widget.id)),
                         child: Container(
                           decoration: BoxDecoration(
                             borderRadius: BorderRadius.circular(10),
