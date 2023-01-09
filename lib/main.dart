@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:flutter_native_splash/flutter_native_splash.dart';
 import 'package:get/get.dart';
 import 'package:restaurant_app/bloc/bloc_detail.dart';
@@ -8,8 +9,15 @@ import 'package:restaurant_app/bloc/bloc_list.dart';
 import 'package:restaurant_app/bloc/bloc_search.dart';
 import 'package:restaurant_app/bloc/bloc_settings.dart';
 import 'package:restaurant_app/screen/home_screen.dart';
+import 'package:restaurant_app/util/notification_helper.dart';
 
-void main() {
+final FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin = FlutterLocalNotificationsPlugin();
+
+Future<void> main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  final NotificationHelper notificationHelper = NotificationHelper();
+  await notificationHelper.initNotifications(flutterLocalNotificationsPlugin);
+  notificationHelper.requestIOSPermissions(flutterLocalNotificationsPlugin)
   WidgetsBinding widgetsBinding = WidgetsFlutterBinding.ensureInitialized();
   FlutterNativeSplash.preserve(widgetsBinding: widgetsBinding);
   runApp(const MyApp());
