@@ -1,11 +1,16 @@
 import 'package:flutter_test/flutter_test.dart';
+import 'package:mockito/annotations.dart';
 import 'package:restaurant_app/util/network.dart';
 
+import 'network_test.mocks.dart';
+
+
+@GenerateMocks([Network])
 void main() {
   group('Provider Test', () {
     test('Should return List of Restaurants when completed', () async {
       // arrange
-      var network = Network();
+      var network = MockNetwork();
 
       // act
       var list = await network.getList();
@@ -17,7 +22,7 @@ void main() {
 
     test('Should return List of Restaurants that contains the query on their name when completed', () async {
       // arrange
-      var network = Network();
+      var network = MockNetwork();
 
       // act
       var query = 'kafe';
